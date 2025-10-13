@@ -1,0 +1,89 @@
+<div class="billing-container">
+  <h2>Billing Application</h2>
+
+  <form [formGroup]="billingForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label>Customer Name:</label>
+      <input type="text" formControlName="customerName" placeholder="Enter name" />
+    </div>
+
+    <div formArrayName="items">
+      <div *ngFor="let item of items.controls; let i = index" [formGroupName]="i" class="item-row">
+        <select formControlName="billType" (change)="onBillTypeChange(i)">
+          <option value="">-- Select Bill Type --</option>
+          <option value="visa">Visa Processing Fee</option>
+          <option value="slot">Slot Booking Fee</option>
+          <option value="dropbox">Drop Box Fee</option>
+          <option value="other">Other Charges</option>
+        </select>
+
+        <input type="number" formControlName="quantity" (input)="calculateTotal()" placeholder="Qty" />
+        <input type="number" formControlName="discount" (input)="calculateTotal()" placeholder="Discount / Qty" />
+
+        <input
+          type="number"
+          *ngIf="item.get('billType')?.value === 'other'"
+          formControlName="baseAmount"
+          (input)="calculateTotal()"
+          placeholder="Enter Amount"
+        />
+
+        <input
+          type="text"
+          *ngIf="item.get('billType')?.value === 'other'"
+          formControlName="description"
+          placeholder="Description"
+        />
+
+        <button type="button" (click)="removeItem(i)" class="remove-btn">X</button>
+      </div>
+    </div>
+
+    <button type="button" (click)="addItem()">+ Add Another Bill</button>
+
+    <button type="submit">Generate Bill</button>
+  </form>
+
+  <!-- Bill Summary -->
+  <div id="bill-section" class="bill-summary" *ngIf="totalAmount > 0">
+    <div class="header">
+      <img src="../../assets/aa-logo-pr.png" class="logo" />
+      <div>
+        <h3>Receipt No: {{ receiptNo }}</h3>
+        <p><strong>Customer:</strong> {{ billingForm.value.customerName }}</p>
+      </div>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Bill Type</th>
+          <th>Quantity</th>
+          <th>Base</th>
+          <th>Discount</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of billingForm.value.items">
+          <td>
+            {{
+              item.billType === 'visa' ? 'Visa Processing Fee' : 
+              item.billType === 'slot' ? 'Slot Booking Fee' : 
+              item.billType === 'dropbox' ? 'Drop Box Fee' :
+              item.description || 'Other Charges'
+            }}
+          </td>
+          <td>{{ item.quantity }}</td>
+          <td>{{ item.baseAmount }}</td>
+          <td>{{ item.discount * item.quantity }}</td>
+          <td>{{ (item.baseAmount * item.quantity) - (item.discount * item.quantity) }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 class="total">Total Bill: ₹{{ totalAmount }}</h3>
+
+    <button (click)="downloadPDF()">Download / Print PDF</button>
+  </div>
+</div>
