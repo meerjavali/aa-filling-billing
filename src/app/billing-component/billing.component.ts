@@ -116,7 +116,7 @@ export class BillingComponent {
     doc.setTextColor(0, 0, 0);
     doc.setFontSize(10);
     const address =
-      'Flat No H 903, Ambience Courtyard, Survey No. 4,\nOpp. Dream Valley, Tanasha Nagar, Manikonda,\nTelangana 500089';
+      'Manikonda, Telangana 500089';
     doc.text(address, 45, 30);
     
     // Draw thin gray separator line between header and invoice section
