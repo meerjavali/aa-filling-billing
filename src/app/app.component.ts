@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-education-employment-form',
@@ -11,7 +12,7 @@ export class AppComponent {
   mainForm!: FormGroup;
   submitted = false;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private http: HttpClient) {
     this.createForm();
   }
 
@@ -105,8 +106,18 @@ export class AppComponent {
     }
 
     this.submitted = true;
+    this.http.post<{ name: string }>('https://aaglobal-services-default-rtdb.firebaseio.com/form.json', this.mainForm.value).subscribe(
+      response => {
+        console.log('Form submission successful', response);
+        alert('Form submitted successfully!, please save the response id: '+response.name);
+      },
+      error => {
+        console.error('Form submission error', error);
+        alert('There was an error submitting the form. Please try again later.');
+      }
+    );
     console.log(this.mainForm.value);
-    alert('Form submitted successfully!');
+    // alert('Form submitted successfully!');
   }
 
   /* SUMMARY TEXT */
