@@ -11,7 +11,7 @@ export class AppComponent {
 
   mainForm!: FormGroup;
   submitted = false;
-  userPanPatternRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/
+  // userPanPatternRegex = /^[A-Z][0-9]{7}$/
   constructor(private fb: FormBuilder, private http: HttpClient) {
     this.createForm();
   }
@@ -108,7 +108,7 @@ onprevEmployment(event:any){
   createForm() {
     this.mainForm = this.fb.group({
 
-      pan: ['',[Validators.required, Validators.pattern(this.userPanPatternRegex)]], 
+      pan: ['',[Validators.required]], 
 
       /* EDUCATION */
      hasEducation: ['', Validators.required],
@@ -197,8 +197,8 @@ onprevEmployment(event:any){
     this.submitted = true;
     this.http.post<{ name: string }>('https://aaglobal-services-default-rtdb.firebaseio.com/form.json', this.mainForm.value).subscribe(
       response => {
-        console.log('Form submission successful', response);
-        alert('Form submitted successfully!, please save the response id: '+response.name);
+        console.log('submission successful', response);
+        alert('Data submitted successfully!, please save the response id: '+response.name);
       },
       error => {
         console.error('Form submission error', error);

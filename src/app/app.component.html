@@ -62,11 +62,11 @@
 
       <!-- PAN -->
       <div class="section">
-        <label>PAN Card Number *</label>
+        <label>Passport Number *</label>
         <input type="text" formControlName="pan" />
         <div class="error" *ngIf=" mainForm.controls['pan']?.errors && mainForm.controls['pan']?.touched ">
-          <span *ngIf="mainForm.controls['pan']?.errors?.['required']">PAN is required</span>
-          <span *ngIf="mainForm.controls['pan']?.errors?.['pattern']">Enter Valid PAN Number</span>
+          <span *ngIf="mainForm.controls['pan']?.errors?.['required']">Passport Number is required</span>
+          <!-- <span *ngIf="mainForm.controls['pan']?.errors?.['pattern']">Enter Valid Passport Number</span> -->
         </div>
       </div>
 
