@@ -27,6 +27,8 @@ export class AppComponent {
       this.mainForm.get('educationDetails.startDate')?.setValidators([Validators.required])
       this.mainForm.get('educationDetails.endDate')?.setValidators([Validators.required])
       this.mainForm.get('educationDetails.educationDescription')?.setValidators([]);
+      this.mainForm.get('educationDescription')?.setValidators([]);
+      this.mainForm.get('educationDescription')?.updateValueAndValidity();
     } 
     if (event.target.value === 'no') {
       this.mainForm.get('educationDetails.instituteName')?.setValidators([]);
@@ -55,8 +57,8 @@ onChangeEmployment(event:any){
     this.mainForm.get('employmentDetails.jobTitle')?.setValidators([Validators.required])
     this.mainForm.get('employmentDetails.jobDescription')?.setValidators([Validators.required])
     this.mainForm.get('employmentDetails.phone')?.setValidators([Validators.required])
-    this.mainForm.get('educationDescription')?.updateValueAndValidity();
-    this.mainForm.get('educationDescription')?.reset();
+    this.mainForm.get('employmentDescription')?.setValidators([]);
+    this.mainForm.get('employmentDescription')?.updateValueAndValidity();
   } 
   if (event.target.value === 'no') {
     this.mainForm.get('employmentDetails.companyName')?.setValidators([]);
@@ -72,7 +74,7 @@ onChangeEmployment(event:any){
     this.mainForm.get('employmentDetails')?.reset() 
     this.mainForm.get('educationDescription')?.setValidators([Validators.required]);
     this.mainForm.get('employmentDescription')?.reset();
-    this.mainForm.get('educationDescription')?.setValidators([Validators.required]);
+    this.mainForm.get('employmentDescription')?.setValidators([Validators.required]);
   }
 }
 onprevEmployment(event:any){
@@ -87,8 +89,8 @@ onprevEmployment(event:any){
     this.mainForm.get('previousEmploymentDetails.jobDescription')?.setValidators([Validators.required])
     this.mainForm.get('previousEmploymentDetails.companyContact')?.setValidators([Validators.required])
     this.mainForm.get('previousEmploymentDetails.supervisor')?.setValidators([Validators.required]) 
-    this.mainForm.get('educationDescription')?.setValidators([Validators.required]);
-    this.mainForm.get('prevEmploymentDescription')?.reset();
+    this.mainForm.get('prevEmploymentDescription')?.setValidators([]);
+    this.mainForm.get('prevEmploymentDescription')?.updateValueAndValidity();
   }
   if (event.target.value === 'no') {
     this.mainForm.get('previousEmploymentDetails.companyName')?.setValidators([]);
@@ -187,7 +189,7 @@ onprevEmployment(event:any){
 
   submitForm() {
     this.submitted = false;
-
+  console.log(this.mainForm)
     if (this.mainForm.invalid) {
       this.mainForm.markAllAsTouched();
       alert('Please fix all errors before submitting.');
